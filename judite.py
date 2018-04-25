@@ -2,15 +2,21 @@
 from chatterbot.trainers import ListTrainer
 from chatterbot import ChatBot
 
-bot = ChatBot('Test')
+chatbot = ChatBot(
+        'Judite',
+        storage_adapter='chatterbot.storage.SQLStorageAdapter',
+        database='./database.sqlite3'
+        )
 
-conv = ['oi', 'olá', 'olá, bom dia', 'bom dia', 'bom dia, como vai?', 'estou bem']
+convIntro = ['oi', 'olá', 'como você está?', 'como vai?', 'tudo bem?', 
+        'estou bem']
 
-bot.set_trainer(ListTrainer)
+chatBot.set_trainer(ListTrainer)
 
-bot.train(conv)
+chatBot.train(convIntro)
+chatBot.train()
 
 while True:
-        quest = input('Você: ')
+        quest = input('You: ')
         response = bot.get_response(quest)
         print('Bot: ', response)
