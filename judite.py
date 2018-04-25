@@ -2,21 +2,25 @@
 from chatterbot.trainers import ListTrainer
 from chatterbot import ChatBot
 
-chatbot = ChatBot(
+chatBot = ChatBot(
         'Judite',
         storage_adapter='chatterbot.storage.SQLStorageAdapter',
-        database='./database.sqlite3'
+        database='./database.sqlite3'        
         )
 
 convIntro = ['oi', 'olá', 'como você está?', 'como vai?', 'tudo bem?', 
-        'estou bem']
+        'estou bem', 'estou bem, e você?']
 
 chatBot.set_trainer(ListTrainer)
 
 chatBot.train(convIntro)
-chatBot.train()
 
 while True:
-        quest = input('You: ')
-        response = bot.get_response(quest)
-        print('Bot: ', response)
+        try:
+            quest = input('You: ')
+            response = chatBot.get_response(quest)
+            print('Bot: ', response)
+        
+        except(KeyboardInterrupt, EOFError, SystemExit):
+            Print('Application error :(')
+            break
