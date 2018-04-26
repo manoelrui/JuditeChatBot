@@ -16,7 +16,10 @@ else:
 chatBot = ChatBot(
         'Judite',
         storage_adapter='chatterbot.storage.SQLStorageAdapter',
-        database='./database.sqlite3'
+        database='./database.sqlite3',
+        preprocessors=[
+            'chatterbot.preprocessors.clean_whitespace'
+        ]
         )
 
 try:
