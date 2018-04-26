@@ -1,7 +1,17 @@
 # -*- coding: utf-8 -*-
 import sqlite3
+import sys
 
-conn = sqlite3.connect('conversation.db')
+databaseName = None
+if len(sys.argv) > 2:
+    Print('Invalid parameters')
+    exit(0)
+elif len(sys.argv) == 1:
+    databaseName = 'conversation.db'
+else:
+    databaseName = str(sys.argv[1]) + '.db'
+
+conn = sqlite3.connect(databaseName)
 cursor = conn.cursor()
 
 try:
@@ -11,8 +21,9 @@ try:
         main TEXT NOT NULL
     );
     """);
+    print('Created the database %s' % (databaseName))
 except sqlite3.OperationalError:
-    print('The database already exists')
+    print('The database %s already exists' % (databaseName))
 
 while True:
     sentence = str(raw_input('Input: '))
