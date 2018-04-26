@@ -1,0 +1,3 @@
+[submodule "chatterbot-corpus"]
+	path = chatterbot-corpus
+	url = https://github.com/gunthercox/chatterbot-corpus.git
