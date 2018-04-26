@@ -31,11 +31,18 @@ chatBot.set_trainer(ListTrainer)
 convList = cursor.fetchall()
 chatBot.train([e[0] for e in convList])
 
+print('Olá meu nome é %s, bem vindo a ZIM !!!' % chatBot.name);
+print('')
+
 while True:
         try:
-            request = input('You: ')
+            request = input('YOU: ')
             response = chatBot.get_response(request)
-            print('Bot: ', response)
+            
+            if float(response.confidence > 0.6):
+                print('%s: %s' % (chatBot.name.upper(), response))
+            else:
+                print('%s: Não entendi' % (chatBot.name.upper()));            
             print('')
         
         except(KeyboardInterrupt, EOFError, SystemExit):
