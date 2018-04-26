@@ -5,7 +5,7 @@ from chatterbot import ChatBot
 chatBot = ChatBot(
         'Judite',
         storage_adapter='chatterbot.storage.SQLStorageAdapter',
-        database='./database.sqlite3'        
+        database='./database.sqlite3'
         )
 
 convIntro = ['oi', 'olá', 'como você está?', 'como vai?', 'tudo bem?', 
@@ -17,9 +17,10 @@ chatBot.train(convIntro)
 
 while True:
         try:
-            quest = input('You: ')
-            response = chatBot.get_response(quest)
+            request = input('You: ')
+            response = chatBot.get_response(request)
             print('Bot: ', response)
+            print('')
         
         except(KeyboardInterrupt, EOFError, SystemExit):
             Print('Application error :(')
