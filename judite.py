@@ -1,6 +1,16 @@
 # -*- coding: utf-8 -*-
 from chatterbot.trainers import ListTrainer
 from chatterbot import ChatBot
+import sys
+import sqlite3
+
+if len(sys.argv) > 2:
+    print('Invalid Parameters')
+    exit(0)
+elif len(sys.argv) == 1:
+    dbName = 'conversation.db'
+else:
+    dbName = str(sys.argv[1]) + '.db'
 
 chatBot = ChatBot(
         'Judite',
@@ -8,12 +18,18 @@ chatBot = ChatBot(
         database='./database.sqlite3'
         )
 
-convIntro = ['oi', 'olá', 'como você está?', 'como vai?', 'tudo bem?', 
-        'estou bem', 'estou bem, e você?']
+conn = sqlite3.connect(dbName)
+cursor = conn.cursor()
+
+cursor.execute("""
+SELECT main FROM Conversation;
+"""        
+)
 
 chatBot.set_trainer(ListTrainer)
 
-chatBot.train(convIntro)
+convList = cursor.fetchall()
+chatBot.train([e[0] for e in convList])
 
 while True:
         try:
