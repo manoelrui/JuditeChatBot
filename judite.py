@@ -18,18 +18,28 @@ chatBot = ChatBot(
         database='./database.sqlite3'
         )
 
-conn = sqlite3.connect(dbName)
-cursor = conn.cursor()
+try:
+    conn = sqlite3.connect(dbName)
+    cursor = conn.cursor()
+except(KeyboardInterrupt, EOFError, SystemExit):
+    print('Error - Could not connect with database')
 
-cursor.execute("""
-SELECT main FROM Conversation;
-"""        
-)
+try:
+    cursor.execute("""
+    SELECT main FROM Conversation;
+    """        
+    )
+except(KeyboardInterrupt, EOFError, SystemExit):
+    print('Error - Could not get conversation data')
 
-chatBot.set_trainer(ListTrainer)
 
-convList = cursor.fetchall()
-chatBot.train([e[0] for e in convList])
+try:
+    chatBot.set_trainer(ListTrainer)
+
+    convList = cursor.fetchall()
+    chatBot.train([e[0] for e in convList])
+except(KeyboardInterrupt, EOFError, SystemExit):
+    print('Error - Could not set trainning the dataset')
 
 print('Olá meu nome é %s, bem vindo a ZIM !!!' % chatBot.name);
 print('')
@@ -39,12 +49,13 @@ while True:
             request = input('YOU: ')
             response = chatBot.get_response(request)
             
-            if float(response.confidence > 0.6):
+            if float(response.confidence > 0.4):
                 print('%s: %s' % (chatBot.name.upper(), response))
             else:
                 print('%s: Não entendi' % (chatBot.name.upper()));            
             print('')
         
         except(KeyboardInterrupt, EOFError, SystemExit):
-            Print('Application error :(')
+            print('Error - Application error :(')
             break
+
