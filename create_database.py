@@ -2,16 +2,16 @@
 import sqlite3
 import sys
 
-databaseName = None
+dbName = None
 if len(sys.argv) > 2:
-    Print('Invalid parameters')
+    print('Invalid parameters')
     exit(0)
 elif len(sys.argv) == 1:
-    databaseName = 'conversation.db'
+    dbName = 'conversation.db'
 else:
-    databaseName = str(sys.argv[1]) + '.db'
+    dbName = str(sys.argv[1]) + '.db'
 
-conn = sqlite3.connect(databaseName)
+conn = sqlite3.connect(dbName)
 cursor = conn.cursor()
 
 try:
@@ -21,12 +21,12 @@ try:
         main TEXT NOT NULL
     );
     """);
-    print('Created the database %s' % (databaseName))
+    print('Created the database %s' % (dbName))
 except sqlite3.OperationalError:
-    print('The database %s already exists' % (databaseName))
+    print('The database %s already exists' % (dbName))
 
 while True:
-    sentence = str(raw_input('Input: '))
+    sentence = str(input('Input: '))
 
     if sentence == '':
         exit(0)
